@@ -1,26 +1,5 @@
-<?php 
-require "config.php";
-
-if(isset($_POST['name'])){
-    try{
-        $conn=new PDO($dsn,$username,$password,$options);
-        $sql="INSERT INTO tasks (taskName,taskPosition,dueDate) VALUES(:name,:position,:day)";
-        $statement=$conn->prepare($sql);
-        $statement->bindParam(":name", $_POST['name'], PDO::PARAM_STR);
-        $statement->bindParam(":position", $_POST['position'],PDO::PARAM_STR);
-        $statement->bindParam(":day", $_POST['date'],PDO::PARAM_STR);
-        $statement->execute();
-        $message="Task added successfully";
-    }
-    catch(PDOException $e){
-        echo $sql ."<br>".$e->getmessage();
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -46,9 +25,8 @@ if(isset($_POST['name'])){
         var name = $('#taskName').val();
         var position = $('#taskPosition').val();
         var date = $('#taskDate').val();
-
         $.ajax({
-            url: "/index.php",
+            url: "/postData.php",
             type: 'POST',
             dataType: 'JSON',
             data: {
@@ -57,8 +35,10 @@ if(isset($_POST['name'])){
                 date: date,
             },
             success: function(data) {
-                // document.getElementById("sss").style.display = "block";
                 alert(data);
+            },
+            error: function(data) {
+                alert("Error");
             }
         });
     }
@@ -70,7 +50,6 @@ if(isset($_POST['name'])){
             type: 'GET',
             dataType: 'JSON',
             success: function(data) {
-                console.log("hello");
                 console.log(data);
             }
         });

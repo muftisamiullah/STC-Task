@@ -34,7 +34,6 @@ if(isset($_POST['name'])){
     <script type="text/javascript">
     // my custom script
     $(document).ready(function() {
-        console.log("in ready");
         retrieveTasks();
         // Save Function
         $(document).on('click', '#addTask', function() {
@@ -57,6 +56,14 @@ if(isset($_POST['name'])){
                 date: date,
             },
             success: function(data) {
+                console.log(data);
+                console.log('success');
+                // document.getElementById("sss").style.display = "block";
+                alert(data);
+            },
+            error: function(data) {
+                console.log(data);
+                console.log('error');
                 // document.getElementById("sss").style.display = "block";
                 alert(data);
             }
@@ -64,7 +71,6 @@ if(isset($_POST['name'])){
     }
 
     function retrieveTasks() {
-        console.log('in retirvetasks');
         $.ajax({
             url: "/getData.php",
             type: 'GET',
